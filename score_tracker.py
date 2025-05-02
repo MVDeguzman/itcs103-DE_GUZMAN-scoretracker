@@ -16,8 +16,7 @@ def create_excel_file():
     ws = wb.active
     ws.title = "UserData"
     ws.append(["Name", "Score", "Remarks"])
-    wb.save("userdata.xlsx")
-
+    wb.save("stud_score.xlsx")
 
 
 def validate_inputs():
@@ -39,7 +38,7 @@ def score_failed():
     from openpyxl import load_workbook
 
 def compute_average():
-    wb = load_workbook("userdata.xlsx")
+    wb = load_workbook("stud_score.xlsx")
     ws = wb["UserData"]
 
     total = 0
@@ -58,8 +57,6 @@ def compute_average():
         print("No scores found.")
 
 
-
-
 def save_to_excel():
 
     if validate_inputs():
@@ -71,7 +68,7 @@ def save_to_excel():
     name = name_entry.get()
     score= int(score_entry.get())
 
-    wb = load_workbook("userdata.xlsx")
+    wb = load_workbook("stud_score.xlsx")
     if "UserData" not in wb.sheetnames:
         create_excel_file()
     else:
@@ -97,9 +94,7 @@ def save_to_excel():
         ws.append([name, score,"Invalid"])
         
     
-    wb.save("userdata.xlsx")
-
-
+    wb.save("stud_score.xlsx")
 
   # Optional formatting
     messagebox.showinfo(title="Success",message= "Data saved successfully!")
@@ -109,15 +104,52 @@ def save_to_excel():
 
     name_entry.insert(0, "Name")
     score_entry.insert(0, "Score")
+
+# def save_with_average():
+    name = name_entry.get()
+    grade = score_entry.get()
+
+    if not grade.isdigit():
+        messagebox.showerror("Error", "Grade must be a number.")
+        return
+
+    file = "stud_score.xlsx"
+    
+    try:
+        wb = load_workbook(file)
+        ws = wb.active
+    except FileNotFoundError:
+        wb = Workbook()
+        ws = wb.active
+        ws.append(["Name", "Grade"])
+
+    # Append new row
+    ws.append([name, int(grade)])
+
+    # Add average formula in the next row
+    row_count = ws.max_row
+    col_letter = get_column_letter(2)  # 'B' for Grade column
+
+    # Write average only once (optional: remove old one first)
+    ws[f"A{row_count + 1}"] = "Average"
+    ws[f"B{row_count + 1}"] = f"=AVERAGE(B2:B{row_count})"
+
+    wb.save(file)
+    messagebox.showinfo("Saved", "Data saved with average!")
+
+    name_entry.delete(0, tk.END)
+    score_entry.delete(0, tk.END)
     
 def show_data():
-
-    wb = load_workbook("userdata.xlsx")
+    
+    wb = load_workbook("stud_score.xlsx")
     ws = wb["UserData"]
 
     data_window = tk.Toplevel(window)
     data_window.title("Stored User Data")
     data_window.geometry("400x400")
+
+    
 
 
 
