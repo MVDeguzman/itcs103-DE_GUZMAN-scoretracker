@@ -101,7 +101,6 @@ def save_to_excel():
 
 
 
-
   # Optional formatting
     messagebox.showinfo(title="Success",message= "Data saved successfully!")
 
@@ -128,15 +127,13 @@ def show_data():
             label.grid(row=i, column=j)
 
 # ========== Tkinter UI ==========
-img = tk.PhotoImage(file = r'C:\Users\Mark Vincent\desktop\ITCCS103 2nd sem\quiz2_itcs103\812553.png')
-image = Label(window, image=img)
+img = tk.PhotoImage(file = r'C:\Users\Mark Vincent\desktop\itcs103-DE_GUZMAN-scoretracker\812553.png')
+img1 = img.subsample(2, 5)  
+image = Label(window, image=img1)
 image.place(x=0, y=0, relwidth=1, relheight=1)
 
 mainframe= tk.Frame(window, bg= "gray25")
 mainframe.place( anchor= "center", relx= 0.5, rely= 0.5,)
-
-# img = tk.PhotoImage(file = r'C:\Users\Mark Vincent\desktop\ITCCS103 2nd sem\quiz2_itcs103\812553.png')
-# Label(mainframe, image=img).place(x=0, y=0, relwidth=1, relheight=1)
 
 user_frame= tk.LabelFrame(mainframe,bg= "gray30", )
 user_frame.pack(pady=20, padx=20, fill= "both", expand= True)
